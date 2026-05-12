@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>✏️ Редактировать задачу</h2>
+<div class="card">
+    <form method="POST">
+        <p><label>Название:</label><br><input type="text" name="title" value="{{ task.title }}" required style="width:100%; padding:8px;"></p>
+        <p><label>Исполнитель:</label><br><input type="text" name="assignee" value="{{ task.assignee }}" required style="width:100%; padding:8px;"></p>
+        <p><label>Статус:</label><br>
+            <select name="status" style="width:100%; padding:8px;">
+                <option value="новая" {% if task.status == 'новая' %}selected{% endif %}>Новая</option>
+                <option value="в работе" {% if task.status == 'в работе' %}selected{% endif %}>В работе</option>
+                <option value="завершена" {% if task.status == 'завершена' %}selected{% endif %}>Завершена</option>
+            </select>
+        </p>
+        <p><label>Дедлайн (ГГГГ-ММ-ДД):</label><br><input type="date" name="deadline" value="{{ task.deadline }}" required style="width:100%; padding:8px;"></p>
+        <p><label>Оценка времени (часы):</label><br><input type="number" step="0.5" name="hours" value="{{ task.hours }}" required style="width:100%; padding:8px;"></p>
+        <button type="submit" class="btn btn-add">💾 Сохранить</button>
+        <a href="/" class="btn" style="background:gray; color:white;">Отмена</a>
+    </form>
+</div>
+{% endblock %}

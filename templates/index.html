@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="stats">
+    <strong>📊 Статистика:</strong> Всего задач: {{ total }} | ✅ Завершено: {{ completed }}
+</div>
+
+<div class="filters">
+    <strong>Фильтр по статусу:</strong>
+    <a href="/">Все</a> |
+    <a href="/?status=новая">Новые</a> |
+    <a href="/?status=в работе">В работе</a> |
+    <a href="/?status=завершена">Завершённые</a>
+</div>
+
+<table>
+    <thead>
+        <tr><th>Название</th><th>Исполнитель</th><th>Статус</th><th>Дедлайн</th><th>Часы</th><th>Действия</th></tr>
+    </thead>
+    <tbody>
+        {% for task in tasks %}
+        <tr>
+            <td>{{ task.title }}</td>
+            <td>{{ task.assignee }}</td>
+            <td><span class="status 
+                {% if task.status == 'новая' %}new
+                {% elif task.status == 'в работе' %}work
+                {% else %}done{% endif %}">{{ task.status }}</span></td>
+            <td>{{ task.deadline }}</td>
+            <td>{{ task.hours }}</td>
+            <td>
+                <a href="/edit/{{ task.id }}" class="btn btn-edit">✏️</a>
+                <a href="/delete/{{ task.id }}" class="btn btn-delete" onclick="return confirm('Удалить?')">🗑️</a>
+                {% if task.status == 'новая' %}
+                    <a href="/status/{{ task.id }}/в работу" class="btn btn-work">В работу</a>
+                {% elif task.status == 'в работе' %}
+                    <a href="/status/{{ task.id }}/завершена" class="btn btn-done">Завершить</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
